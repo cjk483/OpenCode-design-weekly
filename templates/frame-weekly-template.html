@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{PAGE_TITLE}}</title>
+<style>
+:root {
+  --cream:#F2EDE4; --cream-dark:#E8E0D4; --white:#FEFCF8;
+  --ink:#1A1818; --ink-mid:#4A4540; --ink-light:#8A8480;
+  --line:#D4C8B4; --warm:#8B7B6A; --warm-light:#C4B49A;
+  --ef:'Jost','Century Gothic','Segoe UI',sans-serif;
+  --zf:'Microsoft JhengHei','Noto Sans TC','PingFang TC',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-snap-type:y mandatory;overflow-y:scroll;height:100%;background:var(--cream)}
+body{font-family:var(--zf);color:var(--ink);background:var(--cream)}
+#prog{position:fixed;top:0;left:0;height:2px;background:var(--warm);transition:width .35s ease;z-index:1000;width:5%}
+#pg{position:fixed;bottom:3vh;right:3vw;z-index:999;font-family:var(--ef);font-size:clamp(9px,.62vw,11px);letter-spacing:.25em;color:rgba(255,255,255,.58);text-shadow:0 1px 6px rgba(0,0,0,.6);pointer-events:none}
+.slide{width:100vw;height:100vh;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.cover{background:#0e0c0b;color:#fff}
+.cover-bg{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.15)),var(--cover-image) center/cover no-repeat;opacity:.72}
+.cover-wrap{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:5vh 6vw}
+.cover-top{display:flex;justify-content:space-between;align-items:flex-start}
+.c-logo{font-family:var(--ef);font-size:clamp(10px,.82vw,14px);font-weight:300;letter-spacing:.4em;color:var(--warm-light);text-transform:uppercase}
+.c-date{font-family:var(--ef);font-size:clamp(9px,.78vw,13px);font-weight:300;letter-spacing:.2em;color:rgba(242,237,228,.48)}
+.cover-mid{flex:1;display:flex;flex-direction:column;justify-content:center}
+.c-en{font-family:var(--ef);font-size:clamp(9px,.72vw,12px);font-weight:200;letter-spacing:.7em;color:var(--warm-light);text-transform:uppercase;margin-bottom:2.5vh}
+.c-title{font-size:clamp(36px,6.5vw,100px);font-weight:300;color:#fff;line-height:1.12;letter-spacing:.04em;margin-bottom:2vh}
+.c-title em{font-style:normal;color:var(--warm-light);font-size:.65em}
+.c-rule{width:36px;height:1px;background:var(--warm);margin-bottom:2.5vh}
+.c-sub{font-size:clamp(11px,1vw,16px);font-weight:300;color:rgba(242,237,228,.68);line-height:2;letter-spacing:.06em;max-width:760px}
+.cover-bot{border-top:1px solid rgba(242,237,228,.12);padding-top:2.5vh;display:flex;justify-content:space-between;align-items:center}
+.s-light{background:var(--cream)}
+.s-dark{background:var(--ink);color:var(--cream)}
+.s-header{padding:5vh 6vw 3vh;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;flex-shrink:0}
+.s-dark .s-header{border-bottom-color:rgba(242,237,228,.1)}
+.h-en{font-family:var(--ef);font-size:clamp(9px,.7vw,12px);letter-spacing:.4em;color:var(--warm);text-transform:uppercase}
+.s-dark .h-en{color:var(--warm-light)}
+.h-zh{font-size:clamp(18px,2.1vw,34px);font-weight:300;color:var(--ink);letter-spacing:.05em}
+.s-dark .h-zh{color:var(--cream)}
+.stats-row{flex:1;display:grid;grid-template-columns:repeat(4,1fr)}
+.stat-cell{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:4vh 2vw;border-right:1px solid var(--line);text-align:center}
+.stat-cell:last-child{border-right:none}
+.stat-n{font-family:var(--ef);font-size:clamp(44px,7.5vw,120px);font-weight:200;color:var(--ink);line-height:1;margin-bottom:1.5vh}
+.stat-zh{font-size:clamp(11px,.95vw,15px);font-weight:300;color:var(--ink-mid);letter-spacing:.1em;margin-bottom:.6vh}
+.stat-en{font-family:var(--ef);font-size:clamp(9px,.65vw,11px);letter-spacing:.25em;color:var(--ink-light);text-transform:uppercase}
+.cats-strip{border-top:1px solid var(--line);padding:2.5vh 6vw;display:flex;flex-wrap:wrap;gap:1vw;flex-shrink:0}
+.c-tag{font-family:var(--ef);font-size:clamp(8px,.65vw,11px);letter-spacing:.2em;color:var(--warm);text-transform:uppercase;padding:.6vh 1.2vw;border:1px solid var(--warm-light)}
+.index{background:var(--cream)}
+.idx-body{flex:1;display:flex;flex-direction:column;padding:1.5vh 6vw 3vh;overflow:hidden;justify-content:center}
+.idx-row{display:grid;grid-template-columns:3.5vw 1fr 18vw 9vw;align-items:center;padding:1.05vh 0;border-bottom:1px solid var(--cream-dark);gap:2%;cursor:pointer;transition:.2s}
+.idx-row:hover{color:var(--warm);transform:translateX(8px)}
+.idx-row:last-child{border-bottom:none}
+.num{font-family:var(--ef);font-size:clamp(9px,.68vw,11px);letter-spacing:.1em;color:var(--ink-light)}
+.idx-title{font-size:clamp(10px,.88vw,14px);font-weight:300;color:var(--ink);letter-spacing:.03em;line-height:1.35}
+.idx-type{font-family:var(--ef);font-size:clamp(8px,.7vw,11px);letter-spacing:.04em;color:var(--ink-mid)}
+.idx-date{font-family:var(--ef);font-size:clamp(8px,.62vw,10px);letter-spacing:.15em;color:var(--warm);text-transform:uppercase;text-align:right}
+.project{background:#0a0a0a;color:white}
+.p-img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 10s ease}
+.project:hover .p-img{transform:scale(1.04)}
+.p-placeholder{position:absolute;inset:0;background:radial-gradient(circle at 34% 24%,#3d3328,#0a0a0a 62%)}
+.p-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.02) 38%,rgba(0,0,0,.58) 70%,rgba(0,0,0,.88) 100%)}
+.p-cat-top{position:absolute;top:4vh;left:6vw;font-family:var(--ef);font-size:clamp(9px,.65vw,11px);letter-spacing:.35em;color:rgba(242,212,180,.82);text-transform:uppercase;z-index:2;border-left:2px solid var(--warm);padding-left:.8vw}
+.p-num-top{position:absolute;top:4vh;right:5vw;font-family:var(--ef);font-size:clamp(9px,.62vw,10px);letter-spacing:.3em;color:rgba(255,255,255,.32);z-index:2}
+.p-caption{position:absolute;bottom:0;left:0;right:0;padding:0 6vw 5vh;display:flex;align-items:flex-end;justify-content:space-between;gap:4vw;z-index:2}
+.p-cap-l{flex:0 0 auto;max-width:48%}
+.p-proj-num{font-family:var(--ef);font-size:clamp(9px,.68vw,11px);letter-spacing:.35em;color:var(--warm-light);text-transform:uppercase;margin-bottom:1vh}
+.p-name{font-size:clamp(22px,3.4vw,56px);font-weight:300;color:#fff;line-height:1.18;letter-spacing:.03em;margin-bottom:.8vh}
+.p-loc{font-family:var(--ef);font-size:clamp(10px,.78vw,13px);font-weight:300;letter-spacing:.15em;color:rgba(255,255,255,.52)}
+.p-cap-r{flex:0 0 38%}
+.p-desc{font-size:clamp(11px,.92vw,15px);font-weight:300;color:rgba(255,255,255,.78);line-height:1.9;letter-spacing:.04em;margin-bottom:1.5vh}
+.p-link-btn{display:inline-flex;align-items:center;gap:.5vw;margin-top:1.8vh;font-family:var(--ef);font-size:clamp(9px,.68vw,11px);letter-spacing:.35em;color:var(--warm-light);text-decoration:none;text-transform:uppercase;border-bottom:1px solid rgba(196,180,154,.35);padding-bottom:.3vh}
+.synthesis{background:var(--cream);display:grid;place-items:center;padding:6vh 8vw}
+.syn-grid{display:grid;grid-template-columns:1fr 1fr;gap:5vw;max-width:1280px;align-items:center}
+.big-title{font-size:clamp(38px,5.8vw,92px);font-weight:300;line-height:1.06;color:var(--ink)}
+.insights{display:grid;gap:18px}
+.insight{border-top:1px solid var(--line);padding-top:20px}
+.insight b{font-family:var(--ef);color:var(--warm);letter-spacing:.25em;font-size:12px}
+.insight p{font-size:20px;line-height:1.75;margin-top:8px;color:var(--muted)}
+table{width:100%;max-width:1280px;border-collapse:collapse;font-size:17px}
+th,td{border-bottom:1px solid var(--line);padding:18px 14px;text-align:left;vertical-align:top}
+th{font-family:var(--ef);letter-spacing:.18em;color:var(--warm);font-size:12px}
+.closing{background:#080706;color:white;display:grid;place-items:center;text-align:center}
+.closing-bg{position:absolute;inset:0;background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.72)),var(--cover-image) center/cover no-repeat;opacity:.84}
+.closing-inner{position:relative;z-index:1;max-width:1000px;padding:6vw}
+.closing h2{font-size:clamp(42px,7vw,118px);font-weight:300;line-height:1.05;margin-bottom:3vh}
+.closing p{font-size:20px;line-height:2;color:rgba(255,255,255,.72)}
+@media print{@page{size:16in 9in;margin:0}html,body{background:white;overflow:visible}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}.slide{width:16in;height:9in;page-break-after:always;break-after:page;scroll-snap-align:none}.slide:last-child{page-break-after:auto;break-after:auto}#prog,#pg{display:none}}
+</style>
+</head>
+<body style="--cover-image:url('{{COVER_IMAGE_CSS}}')">
+<div id="prog"></div><div id="pg"></div>
+<main>
+  <section class="slide cover" data-section="COVER">
+    <div class="cover-bg"></div>
+    <div class="cover-wrap">
+      <div class="cover-top"><div class="c-logo">{{SITE_LABEL}}</div><div class="c-date">{{DATE_RANGE}}</div></div>
+      <div class="cover-mid"><div class="c-en">WEEKLY DESIGN NEWS</div><h1 class="c-title">設計週報<br><em>{{SITE_LABEL}}</em></h1><div class="c-rule"></div><p class="c-sub">以前一週公開發布或更新內容為準，整理成可垂直滑動閱讀的 {{SLIDE_COUNT}} 頁 HTML 簡報。版型依據固定 FRAME 參考模板。</p></div>
+      <div class="cover-bot"><div class="c-date">ISSUE · {{ISSUE_DATE}}</div><div class="c-date">SOURCE · {{SITE_DOMAIN}}</div></div>
+    </div>
+  </section>
+  <section class="slide s-light" data-section="SNAPSHOT">
+    <div class="s-header"><div><div class="h-en">ONE WEEK SIGNALS</div><div class="h-zh">這週關注什麼？</div></div><div class="h-en">{{ISSUE_DATE}}</div></div>
+    <div class="stats-row"><div class="stat-cell"><div class="stat-n">{{SOURCE_COUNT}}</div><div class="stat-zh">近週來源</div><div class="stat-en">SOURCES</div></div><div class="stat-cell"><div class="stat-n">{{SLIDE_COUNT}}</div><div class="stat-zh">簡報頁數</div><div class="stat-en">SLIDES</div></div><div class="stat-cell"><div class="stat-n">7</div><div class="stat-zh">搜尋天數</div><div class="stat-en">DAYS</div></div><div class="stat-cell"><div class="stat-n">16:9</div><div class="stat-zh">輸出版型</div><div class="stat-en">FORMAT</div></div></div>
+    <div class="cats-strip"><span class="c-tag">ARCHITECTURE</span><span class="c-tag">INTERIORS</span><span class="c-tag">DESIGN</span><span class="c-tag">CULTURE</span><span class="c-tag">WEEKLY</span></div>
+  </section>
+  <section class="slide index" data-section="INDEX">
+    <div class="s-header"><div><div class="h-en">ARTICLE INDEX</div><div class="h-zh">{{PROJECT_COUNT}} 則重點</div></div><div class="h-en">SCROLL / CLICK</div></div>
+    <div class="idx-body">{{INDEX_ROWS}}
+    </div>
+  </section>
+  {{DETAIL_SLIDES}}
+  <section class="slide synthesis" data-section="SYNTHESIS">
+    <div class="syn-grid"><h2 class="big-title">本週設計訊號</h2><div class="insights"><div class="insight"><b>01 EXPERIENCE</b><p>空間設計持續從造型導向轉向體驗導向，停留、感知與使用情境成為主軸。</p></div><div class="insight"><b>02 MATERIAL</b><p>材料與細部不只是美學選擇，也承載品牌、永續與維護策略。</p></div><div class="insight"><b>03 CONTEXT</b><p>建築與室內案例更重視地方脈絡、歷史轉譯與社群關係。</p></div></div></div>
+  </section>
+  <section class="slide synthesis" data-section="SOURCE TABLE">
+    <div><div class="s-header" style="padding:0 0 3vh;border:0"><div><div class="h-en">SOURCE CHECK</div><div class="h-zh">來源摘要</div></div></div><table><thead><tr><th>#</th><th>標題</th><th>日期</th><th>狀態</th></tr></thead><tbody>{{SOURCE_ROWS}}</tbody></table></div>
+  </section>
+  <section class="slide closing" data-section="CLOSING"><div class="closing-bg"></div><div class="closing-inner"><h2>下週自動更新</h2><p>每週五 10:00 自動重新搜尋前一週內容；若品質檢查未通過，不會覆蓋既有正式檔，並會在狀態檔標記失敗。</p></div></section>
+</main>
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+const progress=document.getElementById('prog');
+const pg=document.getElementById('pg');
+function update(){let idx=Math.round(window.scrollY/window.innerHeight);idx=Math.max(0,Math.min(slides.length-1,idx));progress.style.width=((idx+1)/slides.length*100)+'%';pg.textContent=String(idx+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0')+' · '+slides[idx].dataset.section}
+function goto(n){slides[Math.max(0,Math.min(slides.length-1,n-1))].scrollIntoView({behavior:'smooth'})}
+window.addEventListener('scroll',update,{passive:true});
+window.addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key))goto(Math.round(window.scrollY/window.innerHeight)+2);if(['ArrowLeft','PageUp'].includes(e.key))goto(Math.round(window.scrollY/window.innerHeight));if(e.key.toLowerCase()==='f')document.documentElement.requestFullscreen?.()});
+document.addEventListener('click',e=>{if(e.target.closest('a,.idx-row'))return;const x=e.clientX/window.innerWidth;if(x>.7)goto(Math.round(window.scrollY/window.innerHeight)+2);if(x<.3)goto(Math.round(window.scrollY/window.innerHeight))});
+update();
+</script>
+</body>
+</html>
